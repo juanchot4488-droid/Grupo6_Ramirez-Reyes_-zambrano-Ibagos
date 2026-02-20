@@ -1,0 +1,132 @@
+{
+  "name": "NOTIFICADOR DE NUEVO DATOS",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "http://localhost:5678/webhook/notify",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -416,
+        -112
+      ],
+      "id": "fbc22aa3-e7f7-445c-b831-21ed924a88e3",
+      "name": "Webhook",
+      "webhookId": "ee067a32-9b22-4e68-a4c7-f2343458eff3"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d4afed2a-dabb-476c-9e61-abd7788ec89e",
+              "leftValue": "={{ $json.body.email }}",
+              "rightValue": "^[a-zA-Z0-9_%.+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+              "operator": {
+                "type": "string",
+                "operation": "regex"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -176,
+        -96
+      ],
+      "id": "cb39e02a-e1ec-409e-896f-c9c758d58848",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        48,
+        -176
+      ],
+      "id": "d733379e-df1c-4087-9047-dee71a7215b6",
+      "name": "Send a message",
+      "webhookId": "b0b6289d-bd17-40c9-bee8-b4feb795b3a9",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "wpAmiJE7gB2uw5HJ",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        48,
+        0
+      ],
+      "id": "2e3d3fcc-48b6-49d6-b671-d3727c410ebc",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "7ff8f23b-c011-458c-b9ea-fc826e6cd446",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6e94e47e002b0e5849da35b7fc2414d6ed78c20eed68b84f42a630f8970f124d"
+  },
+  "id": "3wUoHonJA6wMBuTx",
+  "tags": []
+}
