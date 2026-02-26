@@ -1,0 +1,201 @@
+{
+  "name": "NOTIFICADOR DE NUEVO DATOS",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "http://localhost:5678/webhook/notify",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -416,
+        -96
+      ],
+      "id": "fbc22aa3-e7f7-445c-b831-21ed924a88e3",
+      "name": "Webhook",
+      "webhookId": "ee067a32-9b22-4e68-a4c7-f2343458eff3"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d4afed2a-dabb-476c-9e61-abd7788ec89e",
+              "leftValue": "={{ $json.body.email }}",
+              "rightValue": "^[a-zA-Z0-9_%.+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+              "operator": {
+                "type": "string",
+                "operation": "regex"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -176,
+        -96
+      ],
+      "id": "cb39e02a-e1ec-409e-896f-c9c758d58848",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "sendTo": "juanchot4488@gmail.com",
+        "subject": "holasss",
+        "message": "JAJJAJAJA",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        48,
+        -176
+      ],
+      "id": "d733379e-df1c-4087-9047-dee71a7215b6",
+      "name": "Send a message",
+      "webhookId": "b0b6289d-bd17-40c9-bee8-b4feb795b3a9",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "WeXnAe1jDn4faG9H",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1jtcysRnB7nR2ylWRFYsMM18re8v8F0zI3N2dXRYJmXw/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jtcysRnB7nR2ylWRFYsMM18re8v8F0zI3N2dXRYJmXw/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "email": "juanchot4488@gmail.com",
+            "error": "correo mal escrito",
+            "fecha": "26/02/2026"
+          },
+          "matchingColumns": [
+            "email"
+          ],
+          "schema": [
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "error",
+              "displayName": "error",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "fecha",
+              "displayName": "fecha",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "useAppend": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        64,
+        16
+      ],
+      "id": "d0173a29-2b5e-4415-b329-01dce397af9f",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "grpuCO91a9H8RKTt",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "2c7da719-e0c8-457d-bf50-aeafb216d456",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6e94e47e002b0e5849da35b7fc2414d6ed78c20eed68b84f42a630f8970f124d"
+  },
+  "id": "3wUoHonJA6wMBuTx",
+  "tags": []
+}
